@@ -1,0 +1,26 @@
+[tool.poetry]
+name = "sticker"
+version = "0.1.0"
+description = ""
+authors = ["Jmimiding4104 <Jmimiding4104@gmail.com>"]
+packages = [
+    { include = "my_project" }
+]
+
+[tool.poetry.dependencies]
+python = ">=3.12,<3.14"
+pyscard = "^2.2.1"
+requests = "^2.32.3"
+pyperclip = "^1.9.0"
+
+[tool.poetry.scripts]
+dev = "my_project.my_project.main:main"
+build = "build:build_exe"
+deploy = "deploy:main"
+
+[tool.poetry.group.dev.dependencies]
+pyinstaller = "^6.12.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
