@@ -68,7 +68,7 @@ def fetch_data():
         label_result.config(text=f"API 請求失敗: {e}")
 
 # 新增一個按鈕來觸發 API 請求
-btn_fetch = tk.Button(window, text="獲取身分證資料", command=fetch_data, font=font, bg="lightblue")
+btn_fetch = tk.Button(window, text="獲取健保卡資料", command=fetch_data, font=font, bg="lightblue")
 btn_fetch.grid(row=3, column=0, columnspan=7, padx=10, pady=10, sticky="ew")
 
 # 創建一個變數來存儲選擇的值
@@ -195,6 +195,9 @@ btn_submit.grid(row=10, column=0, columnspan=7, padx=10, pady=10, sticky="ew")
 # 顯示輸出結果的標籤
 label_result = tk.Label(window, text="", fg="blue", justify="left", font=font)
 label_result.grid(row=11, column=0, columnspan=10, padx=10, pady=10, sticky="ew")
+
+window.iconbitmap('./icon/vhq8g-l69hg-001.ico')  
+window.mainloop()
 
 # 啟動 GUI 事件迴圈
 window.mainloop()
