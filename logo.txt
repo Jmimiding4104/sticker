@@ -1,0 +1,5 @@
+import base64
+
+with open("icon/vhq8g-l69hg-001.ico", "rb") as icon_file:
+    encoded_string = base64.b64encode(icon_file.read()).decode('utf-8')
+    print(encoded_string)

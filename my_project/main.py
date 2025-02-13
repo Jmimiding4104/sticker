@@ -3,10 +3,13 @@ import requests
 from datetime import datetime
 import pyperclip  # 新增這行
 
+import base64, os
+from logo import img
+
 # 建立主視窗
 window = tk.Tk()
-window.title('使用者資訊輸入')
-window.geometry('450x700')
+window.title('診篩列印貼紙')
+window.geometry('450x750')
 window.resizable(True, True)
 
 # 設置字體大小
@@ -131,12 +134,12 @@ entry_address = tk.Text(window, font=font, height=4, width=25)  # 使用 Text �
 entry_address.grid(row=8, column=1, padx=20, pady=10)
 entry_address.insert("1.0", default_text)
 
+space = tk.Label(window, text="", fg="blue", justify="left", font=font)
+space.grid(row=9, column=0, columnspan=7, padx=10, pady=10, sticky="ew")
+
 # 插入文字的函數
 def insert_text():
     entry_address.insert(tk.END, address_var.get())
-    
-space = tk.Label(window, text="", fg="blue", justify="left", font=font)
-space.grid(row=9, column=0, columnspan=7, padx=10, pady=10, sticky="ew")
 
 address_var = tk.StringVar(value="凌雲里")
 
@@ -163,6 +166,40 @@ for i, option in enumerate(address_options):
         button = tk.Button(window, text=option, font=font, command=lambda opt=option: select_address(opt))
         button.place(x=35 + i*100, y=430, width=100, height=50)
 
+tk.Label(window, text="施作項目:", font=font).grid(row=10, column=0, padx=10, pady=0, sticky="w")
+
+space = tk.Label(window, text="", fg="blue", justify="left", font=font)
+space.grid(row=11, column=0, columnspan=7, padx=10, pady=10, sticky="ew")
+
+item_buttons = []
+item_options = ["健檢", "BC", "子抹", "HPV", "腸篩", "口篩", "ICP"]
+item_scores = {"健檢": 6, "BC": 5, "子抹": 4, "HPV": 5, "腸篩": 7, "口篩": 3, "ICP": 1}
+selected_options = set()
+total_score = 0
+
+buttons = {}
+
+def select_item(option):
+    global total_score
+    if option in selected_options:
+        selected_options.remove(option)
+        total_score -= item_scores[option]
+        item_buttons.remove(option)
+        buttons[option].config(bg="SystemButtonFace")
+    else:
+        selected_options.add(option)
+        total_score += item_scores[option]
+        item_buttons.append(option)
+        buttons[option].config(bg="yellow")
+    item_result.config(text=total_score)
+    
+item_result = tk.Label(window, text="", fg="blue", justify="left", font=font)
+item_result.grid(row=13, column=0, columnspan=10, padx=10, pady=10, sticky="e")
+
+for i, option in enumerate(item_options):
+    button = tk.Button(window, text=option, font=font, command=lambda opt=option: select_item(opt))
+    button.place(x=20 + i*60, y=505, width=50, height=50)
+    buttons[option] = button
 
 # 顯示輸入結果
 def submit():
@@ -190,14 +227,18 @@ def submit():
 
 # 提交按鈕
 btn_submit = tk.Button(window, text="提交", command=submit, font=font, bg="lightgreen")
-btn_submit.grid(row=10, column=0, columnspan=7, padx=10, pady=10, sticky="ew")
+btn_submit.grid(row=12, column=0, columnspan=7, padx=10, pady=10, sticky="ew")
 
 # 顯示輸出結果的標籤
-label_result = tk.Label(window, text="", fg="blue", justify="left", font=font)
-label_result.grid(row=11, column=0, columnspan=10, padx=10, pady=10, sticky="ew")
 
-window.iconbitmap('./icon/vhq8g-l69hg-001.ico')  
-window.mainloop()
+label_result = tk.Label(window, text="", fg="blue", justify="left", font=font)
+label_result.grid(row=13, column=0, columnspan=10, padx=10, pady=10, sticky="w")
+
+ico = open('unicorn.ico', 'wb+')
+ico.write(base64.b64decode(img)) # 寫一個icon出來
+ico.close()
+window.iconbitmap('unicorn.ico') # 將icon嵌上視窗
+os.remove('unicorn.ico') # 把剛剛用完的檔案刪掉
 
 # 啟動 GUI 事件迴圈
 window.mainloop()

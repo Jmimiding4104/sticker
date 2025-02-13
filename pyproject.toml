@@ -12,9 +12,10 @@ python = ">=3.12,<3.14"
 pyscard = "^2.2.1"
 requests = "^2.32.3"
 pyperclip = "^1.9.0"
+pillow = "^11.1.0"
 
 [tool.poetry.scripts]
-dev = "my_project.my_project.main:main"
+dev = "my_project.main:main"
 build = "build:build_exe"
 deploy = "deploy:main"
 
