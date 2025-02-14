@@ -14,6 +14,7 @@ window.resizable(True, True)
 
 # 設置字體大小
 font = ('Helvetica', 14)
+big_font = ('Helvetica', 48)
 
 default_text = "桃園市龍潭區"
 
@@ -168,16 +169,20 @@ for i, option in enumerate(address_options):
 
 tk.Label(window, text="施作項目:", font=font).grid(row=10, column=0, padx=10, pady=0, sticky="w")
 
+item_result = tk.Label(window, text="", fg="blue", justify="left", font=font)
+item_result.grid(row=10, column=1, columnspan=10, padx=10, pady=10, sticky="e")
+
 space = tk.Label(window, text="", fg="blue", justify="left", font=font)
 space.grid(row=11, column=0, columnspan=7, padx=10, pady=10, sticky="ew")
 
 item_buttons = []
 item_options = ["健檢", "BC", "子抹", "HPV", "腸篩", "口篩", "ICP"]
-item_scores = {"健檢": 6, "BC": 5, "子抹": 4, "HPV": 5, "腸篩": 7, "口篩": 3, "ICP": 1}
+item_scores = {"健檢": 5, "BC": 4, "子抹": 4, "HPV": 5, "腸篩": 7, "口篩": 3, "ICP": 1}
 selected_options = set()
 total_score = 0
 
 buttons = {}
+
 
 def select_item(option):
     global total_score
@@ -193,22 +198,31 @@ def select_item(option):
         buttons[option].config(bg="yellow")
     item_result.config(text=total_score)
     
-item_result = tk.Label(window, text="", fg="blue", justify="left", font=font)
-item_result.grid(row=13, column=0, columnspan=10, padx=10, pady=10, sticky="e")
+def clean_item():
+    global total_score
+    for option in item_buttons:
+        buttons[option].config(bg="SystemButtonFace")
+    total_score = 0
+    item_buttons.clear()
+    selected_options.clear()
+    item_result.config(text=total_score)
+
 
 for i, option in enumerate(item_options):
     button = tk.Button(window, text=option, font=font, command=lambda opt=option: select_item(opt))
-    button.place(x=20 + i*60, y=505, width=50, height=50)
+    button.place(x=20 + i*60, y=520, width=50, height=50)
     buttons[option] = button
 
 # 顯示輸入結果
 def submit():
-    name = entry_name.get()
-    id_number = entry_id.get()
-    education = edu_var.get()
-    birthday = entry_birthday.get()
-    phone = entry_phone.get()
-    address = entry_address.get("1.0", "end-1c")  # 從第一行第一個字元開始讀取，到最後一個字元結束，並去除換行符號
+    global total_score
+    
+    name = entry_name.get().strip()
+    id_number = entry_id.get().strip()
+    education = edu_var.get().strip()
+    birthday = entry_birthday.get().strip()
+    phone = entry_phone.get().strip()
+    address = entry_address.get("1.0", "end-1c").strip()  # 從第一行第一個字元開始讀取，到最後一個字元結束，並去除換行符號
     
     # 將資料複製到剪貼簿
     result_text = f"{name} {id_number} {education}\n{birthday} {phone}\n{address}"
@@ -224,6 +238,10 @@ def submit():
     
     # 更新顯示結果
     label_result.config(text=result_text)
+    final_item_result.config(text=total_score)
+    
+    total_score = 0
+    clean_item()
 
 # 提交按鈕
 btn_submit = tk.Button(window, text="提交", command=submit, font=font, bg="lightgreen")
@@ -231,8 +249,11 @@ btn_submit.grid(row=12, column=0, columnspan=7, padx=10, pady=10, sticky="ew")
 
 # 顯示輸出結果的標籤
 
-label_result = tk.Label(window, text="", fg="blue", justify="left", font=font)
+label_result = tk.Label(window, text="", fg="blue", justify="left", font=font, wraplength=350)
 label_result.grid(row=13, column=0, columnspan=10, padx=10, pady=10, sticky="w")
+
+final_item_result = tk.Label(window, text="", fg="red", justify="left", font=big_font)
+final_item_result.grid(row=13, column=1, columnspan=10, padx=10, pady=10, sticky="e")
 
 ico = open('unicorn.ico', 'wb+')
 ico.write(base64.b64decode(img)) # 寫一個icon出來
