@@ -1,4 +1,4 @@
-1.請下載精臣雲打印電腦版(https://www.niimbot.com/cnweb/pc.html)，後安裝完成並打開程式。
+1.請下載精臣雲打印電腦版，後安裝完成並打開程式。(https://www.niimbot.com/cnweb/pc.html)
 
 2.開啟診篩列印貼紙
 
