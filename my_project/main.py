@@ -149,23 +149,26 @@ def select_address(value):
     insert_text()
 
 address_buttons = []
-address_options = ["凌雲里", "龍祥里", "八德里", "聖德里"]
+address_options = ["龍祥里","凌雲里", "三和里", "聖德里", "八德里"]
 
 for i, option in enumerate(address_options):
 
     
-    if option == "凌雲里":
+    if option == "龍祥里":
         button = tk.Button(window, text=option, font=font, command=lambda opt=option: select_address(opt))
-        button.place(x=20 + i*100, y=430, width=100, height=50)  # 設定按鈕的絕對位置和大小
-    elif option == "龍祥里":
+        button.place(x=20 + i*85, y=430, width=80, height=50)  # 設定按鈕的絕對位置和大小
+    elif option == "凌雲里":
         button = tk.Button(window, text=option, font=font, command=lambda opt=option: select_address(opt))
-        button.place(x=25 + i*100, y=430, width=100, height=50)
-    elif option == "八德里":
+        button.place(x=20 + i*85, y=430, width=80, height=50)
+    elif option == "三和里":
         button = tk.Button(window, text=option, font=font, command=lambda opt=option: select_address(opt))
-        button.place(x=30 + i*100, y=430, width=100, height=50)
+        button.place(x=20 + i*85, y=430, width=80, height=50)
     elif option == "聖德里":
         button = tk.Button(window, text=option, font=font, command=lambda opt=option: select_address(opt))
-        button.place(x=35 + i*100, y=430, width=100, height=50)
+        button.place(x=20 + i*85, y=430, width=80, height=50)
+    elif option == "八德里":
+        button = tk.Button(window, text=option, font=font, command=lambda opt=option: select_address(opt))
+        button.place(x=20 + i*85, y=430, width=80, height=50)
 
 tk.Label(window, text="施作項目:", font=font).grid(row=10, column=0, padx=10, pady=0, sticky="w")
 
