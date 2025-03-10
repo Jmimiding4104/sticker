@@ -46,7 +46,7 @@ def convert_to_minguo(date_str):
 # 從 API 獲取資料
 def fetch_data():
     try:
-        response = requests.get("http://127.0.0.1:8000")
+        response = requests.get("http://127.0.0.1:8000", timeout=5)
         response.raise_for_status()
         data = response.json()
         
@@ -68,6 +68,8 @@ def fetch_data():
             
         else:
             label_result.config(text="API 資料格式不正確")
+    except requests.Timeout:
+        window.after(0, lambda: label_result.config(text="API 連線超時，請重啟 API 程式!!"))
     except requests.RequestException as e:
         label_result.config(text=f"API 請求失敗: {e}")
 
